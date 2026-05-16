@@ -94,4 +94,14 @@ def require_roles(allowed_roles: list[str]):
     
     return role_checker
 
+@app.get("/profile")
+def profile(current_user: dict = Depends(require_roles(["user", "admin"]))):
+    return {"Message": f"Profile of {current_user['username']} ({current_user['role']})"}
 
+@app.get("/user/dashboard")
+def user_dashboard(current_user: dict = Depends(require_roles(["user"]))):
+    return {"Message": "welcome User"}
+
+@app.get("/admin/dashboard")
+def user_dashboard(current_user: dict = Depends(require_roles(["admin"]))):
+    return {"Message": "welcome Admin"}
